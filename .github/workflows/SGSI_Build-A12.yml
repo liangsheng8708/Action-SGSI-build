@@ -38,20 +38,32 @@ jobs:
       - name: Get variable configuration...
         run: |
           echo "BUILD_TIME=$(date +%s | md5sum | awk '{print substr($1,1,10)}')" >> $GITHUB_ENV
+          
+
+      - name: apt...
+        run: |
+          sudo mv /var/lib/dpkg/info /var/lib/dpkg/info.bk
+          sudo mkdir /var/lib/dpkg/info
+          sudo apt-get update
+          sudo apt-get install -f
+          sudo mv /var/lib/dpkg/info/* /var/lib/dpkg/info.bk
+          sudo rm -rf /var/lib/dpkg/info
+          sudo mv /var/lib/dpkg/info.bk /var/lib/dpkg/info
 
       - name: Clean up the environment‌‌...
         run: |
           docker rmi `docker images -q`
-          sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php
-          sudo apt update
-          sudo apt -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
-          sudo apt -y autoremove --purge
-          sudo apt clean
+          sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php
+          sudo -E apt-get update
+          sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get -y autoremove --purge
+          sudo -E apt-get clean
           df -h
 
       - name: Configuration Environment‌‌...
         run: |
-          sudo apt install -y git wget git zip unzip curl axel
+          sudo apt-get install -y git wget git zip unzip curl axel
 
       - name: Get the SGSI tool‌‌...
         run: |

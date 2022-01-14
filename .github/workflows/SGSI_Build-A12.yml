@@ -71,6 +71,7 @@ jobs:
       - name: Make AB type GSI‌‌...
         if: ${{ github.event.inputs.SGSI_TYPE }} == 'AB' || ${{ github.event.inputs.SGSI_TYPE }} == 'BOTH'
         run: |
+          cd $GITHUB_WORKSPACE/Tool-SGSI-build
           ./make.sh -ab ${{ github.event.inputs.OS_TYPE }} $GITHUB_WORKSPACE/Tool-SGSI-build/tmp/${{ github.event.inputs.ZIP_NAME }}
           
       - name: Packing(AB)...
@@ -95,6 +96,7 @@ jobs:
       - name: Make A-only type GSI‌‌...
         if: ${{ github.event.inputs.SGSI_TYPE }} == 'A' || ${{ github.event.inputs.SGSI_TYPE }} == 'BOTH'
         run: |
+          cd $GITHUB_WORKSPACE/Tool-SGSI-build
           ./make.sh -a ${{ github.event.inputs.OS_TYPE }} $GITHUB_WORKSPACE/Tool-SGSI-build/tmp/${{ github.event.inputs.ZIP_NAME }}
           
       - name: Packing(A-only)...
